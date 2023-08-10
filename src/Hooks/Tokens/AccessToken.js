@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const useAccessToken = () => {
   const [accessToken, setAccessToken] = useState('')
-  const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getToken = () => {
@@ -12,12 +13,10 @@ const useAccessToken = () => {
         if (access) {
           setAccessToken(access.split("=")[1]);
         } else {
-          setError("Access Token Doesn't exist")
-          console.error(error);
+          navigate('/login')
         }
       } else {
-        setError("No Token Exists")
-        console.error(error);
+        navigate('/login')
       }
     };
 
@@ -25,7 +24,7 @@ const useAccessToken = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken]); 
 
-  return { accessToken, error };
+  return { accessToken };
 };
 
 export default useAccessToken;

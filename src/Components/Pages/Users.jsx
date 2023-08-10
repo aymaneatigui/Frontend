@@ -1,18 +1,19 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import useAccessToken from "../Tokens/AccessToken";
+import { useTokens } from "../../Hooks/Tokens/useTokens";
 
 const Users = () => {
   axios.defaults.withCredentials = true;
 
-  const { accessToken, error } = useAccessToken();
+  const { useToken } = useTokens();
+  const access_token = useToken();
 
   const [userdata, setUserdata] = useState(null);
     const fetshData = async () => {
       try {
         const response = await axios.get("http://127.0.0.1:8000/api/users/", {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${access_token}`,
           },
           mode: "cors",
           credentials: "include",
@@ -25,11 +26,10 @@ const Users = () => {
     };
 
   useEffect(() => {
-    if (accessToken) {
+    if (access_token) {
       fetshData();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken]);
+  }, [access_token]);
 
   if (userdata) {
     console.log(userdata);
@@ -38,8 +38,7 @@ const Users = () => {
   return (
     <div>
       <h1>Users</h1>
-      {userdata ?
-        userdata.map((data, i) => {
+      {userdata && userdata.map((data, i) => {
           return (
             <div key={i}>
               <h2>{data.email}</h2>
@@ -49,7 +48,6 @@ const Users = () => {
             </div>
           );
         })
-        :  <h2>{error}</h2>
       }
     </div>
   )
