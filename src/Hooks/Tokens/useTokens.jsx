@@ -1,14 +1,14 @@
 export const useTokens = () => {
-	const setToken = (access, expires_at) => {
-		const expires = new Date(expires_at * 1000).toUTCString();
-		document.cookie = `access_token=${access}; expires=${expires};`;
+	const setToken = (token, exp) => {
+		const expires = new Date(exp * 1000).toUTCString();
+		document.cookie = `access=${token}; expires=${expires};`;
 	};
 
 	const useToken = () => {
 		const Tokens = document.cookie;
 		if (Tokens) {
 			const access = Tokens.split(';').find((row) =>
-				row.trim().startsWith('access_token=')
+				row.trim().startsWith('access=')
 			);
 			if (access) {
 				return access.split('=')[1];

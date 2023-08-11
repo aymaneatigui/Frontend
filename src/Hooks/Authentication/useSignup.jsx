@@ -16,8 +16,8 @@ export const useSignup = () => {
         password: password,
       });
       if (response.status === 201) {
-        const { access, expires_at } = response.data.Token;
-        setToken(access, expires_at);
+        const { token, exp } = response.data;
+        setToken(token, exp);
         console.log("---Sign-up Successfully---");
       }
     } catch (error) {

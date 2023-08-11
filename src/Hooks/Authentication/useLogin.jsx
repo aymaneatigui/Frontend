@@ -14,8 +14,8 @@ export const useLogin = () => {
       });
 
       if (response.status === 200) {
-        const { access, expires_at } = response.data.Tokens;
-        setToken(access, expires_at);
+        const { token, exp } = response.data;
+        setToken(token, exp);
         console.log("---Login Successfully---");
       }
     } catch (error) {
