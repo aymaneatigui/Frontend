@@ -6,14 +6,14 @@ const Users = () => {
   axios.defaults.withCredentials = true;
 
   const { useToken } = useTokens();
-  const access_token = useToken();
+  const token = useToken();
 
   const [userdata, setUserdata] = useState(null);
     const fetshData = async () => {
       try {
         const response = await axios.get("http://127.0.0.1:8000/api/users/", {
           headers: {
-            Authorization: `Bearer ${access_token}`,
+            Authorization: `Bearer ${token}`,
           },
           mode: "cors",
           credentials: "include",
@@ -26,10 +26,13 @@ const Users = () => {
     };
 
   useEffect(() => {
-    if (access_token) {
+    if (token) {
       fetshData();
+    }else{
+      console.error("You should Login First")
     }
-  }, [access_token]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   if (userdata) {
     console.log(userdata);
